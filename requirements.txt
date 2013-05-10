@@ -1,9 +1,13 @@
 
+# Feed reading
+feedparser>=5.1.3
+pytz>=2013b
+
 # Email sending
 mandrill>=1.0.6
 
 # Heroku API
-heroku
+heroku>=0.1.2
 
 # Web
 Flask==0.9

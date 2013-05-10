@@ -1,0 +1,4 @@
+ipython>=0.13
+testify>=0.4
+mock
+pyautotest
