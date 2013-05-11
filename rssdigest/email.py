@@ -2,6 +2,8 @@
  Send emails to the list.
 """
 
+import requests
+
 class MailGunConfig(object):
 
     api_url = 'https://api.mailgun.net/v2'

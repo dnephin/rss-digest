@@ -5,7 +5,7 @@ Send emails to all subscribers for each feed with new items.
 import datetime
 import itertools
 
-from rssdigest import reader, emailer
+from rssdigest import feeds, email
 
 
 class DailyDigestConfigSchema(object):
@@ -20,7 +20,7 @@ def get_min_datetime():
 
 def get_feeds_with_new_entries(feed_configs, min_datetime):
     return itertools.ifilter(None, 
-        (reader.get_feed_entries(feed_config, min_datetime)
+        (feeds.get_feed_entries(feed_config, min_datetime)
         for feed_config in feed_configs))
 
 
@@ -28,4 +28,4 @@ def run():
     min_datetime = get_min_datetime()
     feed_configs = DailyDigestConfigSchema.feed_configs
     for feed in get_feeds_with_new_entries(feed_configs, min_datetime):
-        emailer.send_digest(feed)
+        email.send_digest(feed)
