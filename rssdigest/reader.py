@@ -21,6 +21,8 @@ class FeedConfig(object):
     time_zone           = 'MST'
     date_strip          = (0, 6)
 
+    list_name           = 'dev-test'
+
 
 Feed = namedtuple('Feed', 'feed feed_config recent_items')
 
