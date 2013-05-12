@@ -1,6 +1,7 @@
 
 import heroku
 import logging
+import os
 import pytz
 import staticconf
 from staticconf import getters, validation
@@ -10,6 +11,7 @@ from rssdigest import feeds
 
 
 path = 'config/rssdigest.yaml'
+app_name = 'rss-digest'
 
 
 def load(path=path):
@@ -38,9 +40,9 @@ def setup_logging(verbose=True):
 
 def get_app(api_key):
     cloud = heroku.from_key(api_key)
-    return cloud.apps['rss-digest']
+    return cloud.apps[app_name]
 
 
 def load_app_config(api_key=None):
-    app = get_app(api_key)
+    app = get_app(api_key or os.environ.get('HEROKU_API_KEY'))
     staticconf.DictConfiguration(app.config.data, namespace='app_config')

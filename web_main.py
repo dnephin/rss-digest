@@ -1,6 +1,8 @@
 from flask import Flask
 
-app = Flask('rss-digest')
+from rssdigest import config
+
+app = Flask(config.app_name)
 
 @app.route('/')
 def home():
