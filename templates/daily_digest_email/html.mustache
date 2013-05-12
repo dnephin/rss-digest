@@ -1,0 +1,90 @@
+<html>
+<head></head>
+<body>
+<style>
+    h1, h2, h3, p, a, uli, body, small, span {
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    }
+    h1 {
+        margin-bottom: 2px;
+    }
+    h1 a {
+        font-size: 20px;
+        color: #222;
+        text-decoration: none;
+    }
+    p.summary {
+        margin: 0 0 20px;
+    }
+
+    h2 {
+        font-size: 16px;
+        color: #333;
+    }
+    h3 {
+        margin: 15px 0 2px 0;
+        padding-top: 15px;
+        border-top: 1px solid #ccc;
+    }
+    h3 a {
+        font-size: 16px;
+        color: #333;
+    }
+    .date, .publisher {
+        font-size: 12px;
+        color: #999;
+        font-weight: normal;
+        margin-top: 0px;
+    }
+    p, .text {
+        font-size: 13px;
+        color: #333;
+    }
+    .author small, .keywords small {
+        font-weight: bold;
+    }
+    ol.contents li, ol.contents li a {
+        font-size: 12px;
+        color: #333;
+        text-decoration: none;
+    }
+    ol.contents li a {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+</style>
+
+<h1><a href="{{url}}">{{title}}</a></h1>
+<p class="summary">
+{{#issue}}
+    <small>Issue: </small>{{issue}}
+{{/issue}}
+</p>
+
+
+<h2>Contents</h2>
+<ol class="contents">
+{{#items}}
+    <li><a href="#{{slug}}">{{short_title}}</li>
+{{/items}}
+</ol>
+
+{{#items}}
+
+<div>
+
+    <h3><a href="{{url}}" name="{{slug}}">{{title}}</a></h3>
+    <p class="publisher">{{publisher}}</p>
+    <p class="author"><small>Author:</small> {{author}}</p>
+    <div class="text">{{{text}}}</div>
+    
+    {{#keywords}}
+        <p class="keywords"><small>Keywords:</small> {{keywords}}</p>
+    {{/keywords}}
+
+</div>
+
+{{/items}}
+
+</body>
+</html>
