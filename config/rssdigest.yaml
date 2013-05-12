@@ -2,7 +2,7 @@
 feeds:
     -   name                : 'Journal of Clinical Oncology'
         url                 : 'http://jco.ascopubs.org/rss/current.xml'
-        list_name           : 'dev-test'
+        list_name           : 'journal-of-clinical-oncology'
 
         date_format         : '%Y-%m-%dT%H:%M:%S'
         time_zone           : 'MST'
@@ -11,7 +11,7 @@ feeds:
 
     -   name                : 'ScienceDirect Publication: The Lancet Oncology'
         url                 : 'http://rss.sciencedirect.com/publication/science/6645'
-        list_name           : 'dev-test'
+        list_name           : 'science-direct-the-lancet-oncology'
 
         date_format         : '%Y-%m-%dT%H:%M:%SZ'
         time_zone           : 'UTC'
@@ -20,7 +20,7 @@ feeds:
 
     -   name                : 'Nature Reviews Clinical Oncology'
         url                 : 'http://feeds.nature.com/nrclinonc/rss/current?format=xml'
-        list_name           : 'dev-test'
+        list_name           : 'nature-clinical-oncology'
 
         date_format         : '%Y-%m-%d'
         time_zone           : 'UTC'
