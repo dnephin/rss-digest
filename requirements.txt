@@ -1,5 +1,6 @@
 # General
 PyStaticConfiguration>=0.5.3
+PyYAML>=3.10
 
 # Feed reading
 feedparser>=5.1.3
