@@ -110,11 +110,11 @@ class DigestEmailContext(object):
             'title':        item['title'],
             'short_title':  truncate(item['title'], 80),
             'date':         item['date'],
-            'author':       item['author'],
+            'author':       item.get('author'),
             'text':         item['summary'],
-            'keywords':     item['keywords'],
+            'keywords':     item.get('keywords'),
             'slug':         slugify(item['title']),
-            'publication':  item['publication'],
+            'publication':  item.get('publication'),
         }
 
 def slugify(value):

@@ -76,8 +76,10 @@ class JCOFeedNormalizer(object):
 
     @property
     def issue(self):
-        # TODO: parse date
-        return self.channel['prism_coverdisplaydate']
+        date = datetime.datetime.strptime(
+            self.channel['prism_coverdisplaydate'],
+            '%b %d %Y %I:%M:%S:000%p')
+        return date.strftime("%B %d, %Y")
 
     @property
     def image(self):
@@ -124,20 +126,11 @@ class LancetFeedNormalizer(object):
 
     @property
     def image(self):
-        pass
+        # Image in the feed is 404
+        return None
 
     def items(self):
         return normalize_items(self)
 
     def normalize_item(self, item):
-        item = dict(item)
-        item.update({
-            # Authors are stored in the description
-            'author': None,
-            # Date is in the description
-            'date': None,
-            'keywords': None,
-            'publication': None,
-            'title': item['title'],
-        })
         return item
