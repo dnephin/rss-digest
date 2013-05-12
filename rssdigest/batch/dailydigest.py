@@ -6,10 +6,8 @@ import datetime
 import itertools
 import logging
 import pytz
-import staticconf
-from staticconf import getters, validation
 
-from rssdigest import feeds, email
+from rssdigest import feeds, email, config
 
 
 log = logging.getLogger(__name__)
@@ -20,19 +18,10 @@ def get_default_min_entry_date():
     return datetime.datetime.now(tz) - datetime.timedelta(days=1)
 
 
-def validate_utc_datetime(value):
-     tz = pytz.timezone('UTC')
-     return validation.validate_datetime(value).replace(tzinfo=tz)
-
-get_utc_datetime = getters.build_getter(validate_utc_datetime)
-
-
 class DailyDigestConfigSchema(object):
 
-    feed_configs = [
-        feeds.FeedConfig,
-    ]
-    min_entry_date = get_utc_datetime(
+    feed_configs = config.get_feed_config('feeds')
+    min_entry_date = config.get_utc_datetime(
         'min_entry_date', default=get_default_min_entry_date())
 
 

@@ -11,17 +11,14 @@ import pytz
 
 log = logging.getLogger(__name__)
 
+# TODO:make staticconf.Schema accept a path argument
 class FeedConfig(object):
 
-    name                = "Journal of Clinical Oncology"
-    url                 = "http://jco.ascopubs.org/rss/current.xml"
-    email_list_name     = "journal_of_clinical_oncology"
+    def __init__(self, config_dict):
+        self.config = config_dict
 
-    date_format         = "%Y-%m-%dT%H:%M:%S"
-    time_zone           = 'MST'
-    date_strip          = (0, 6)
-
-    list_name           = 'dev-test'
+    def __getattr__(self, name):
+        return self.config[name]
 
 
 Feed = namedtuple('Feed', 'feed config recent_items')

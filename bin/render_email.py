@@ -6,7 +6,8 @@ Render a DigestEmail with a feed and print the results to files.
 import datetime
 import pytz
 
-from rssdigest import feeds, email
+from rssdigest import feeds, email, config
+from rssdigest.batch.dailydigest import DailyDigestConfigSchema
 
 
 def get_utc_days_ago(num):
@@ -15,8 +16,10 @@ def get_utc_days_ago(num):
 
 
 def main():
+    config.load()
+    feed_configs = DailyDigestConfigSchema.feed_configs
     min_datetime = get_utc_days_ago(10)
-    feed = feeds.get_feed_entries(feeds.FeedConfig, min_datetime)
+    feed = feeds.get_feed_entries(feed_configs[0], min_datetime)
     renderer = email.DigestEmailRenderer(feed)
     email_content = renderer.build_email()
     with open('email.html', 'w') as f:

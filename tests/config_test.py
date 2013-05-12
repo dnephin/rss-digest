@@ -1,10 +1,9 @@
 
 import datetime
-from testify import TestCase, setup, setup_teardown, assert_equal
-import mock
+from testify import TestCase, assert_equal
 import pytz
 
-from rssdigest.batch import dailydigest
+from rssdigest import config
 
 
 class ValidateUTCDatetimeTestCase(TestCase):
@@ -13,4 +12,4 @@ class ValidateUTCDatetimeTestCase(TestCase):
         date = '2010-01-01 01:01:01'
         expected = datetime.datetime(2010, 1, 1, 1, 1, 1,
             tzinfo=pytz.timezone('UTC'))
-        assert_equal(dailydigest.validate_utc_datetime(date), expected)
+        assert_equal(config.validate_utc_datetime(date), expected)

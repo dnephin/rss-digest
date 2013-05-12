@@ -10,6 +10,7 @@ import pystache
 import re
 import requests
 import staticconf
+from staticconf import schema
 
 
 log = logging.getLogger(__name__)
@@ -18,14 +19,15 @@ log = logging.getLogger(__name__)
 EmailContent = namedtuple('EmailContent', 'subject html text')
 
 
-# TODO: move to config file
-class MailGunConfig(object):
+class MailGunConfig(schema.Schema):
+    namespace       = 'DEFAULT'
+    config_path     = 'mailgun'
 
-    api_url         = 'https://api.mailgun.net/v2'
+    api_url         = schema.string()
     api_key         = staticconf.get_string('MAILGUN_API_KEY', namespace='app_config')
-    email_from      = 'Rss Digest <Erica.Lenton@albertahealthservices.ca>'
-    reply_to        = 'Erica Lenton <Erica.Lenton@albertahealthservices.ca>'
-    list_domain     = 'app15574223.mailgun.org'
+    email_from      = schema.string()
+    reply_to        = schema.string()
+    list_domain     = schema.string()
 
 
 class DigestEmailConfig(object):

@@ -1,0 +1,11 @@
+
+feeds:
+    -   name                : "Journal of Clinical Oncology"
+        url                 : "http://jco.ascopubs.org/rss/current.xml"
+        list_name           : 'dev-test'
+
+        date_format         : "%Y-%m-%dT%H:%M:%S"
+        time_zone           : 'MST'
+        date_strip          : [0, 6]
+
+   
