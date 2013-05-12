@@ -24,7 +24,7 @@ class FeedConfig(object):
     list_name           = 'dev-test'
 
 
-Feed = namedtuple('Feed', 'feed feed_config recent_items')
+Feed = namedtuple('Feed', 'feed config recent_items')
 
 
 def parse_date(feed_config, date_string):

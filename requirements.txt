@@ -1,3 +1,5 @@
+# General
+PyStaticConfiguration>=0.5.3
 
 # Feed reading
 feedparser>=5.1.3
