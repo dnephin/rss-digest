@@ -111,7 +111,8 @@ class HandleResponseTestCase(TestCase):
 
     @setup_teardown
     def patch_logger(self):
-        self.feed = mock.Mock(recent_items=[])
+        self.feed = mock.Mock()
+        self.feed.items.return_value=[]
         self.response = mock.Mock()
         self.renderer = mock.create_autospec(email.DigestEmailRenderer)
         self.email = email.DigestEmail(self.feed, self.renderer)

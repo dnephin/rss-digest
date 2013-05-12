@@ -7,5 +7,14 @@ feeds:
         date_format         : "%Y-%m-%dT%H:%M:%S"
         time_zone           : 'MST'
         date_strip          : [0, 6]
+        normalize_class     : JCOFeedNormalizer
 
-   
+    -   name                : "ScienceDirect Publication: The Lancet Oncology"
+        url                 : "http://rss.sciencedirect.com/publication/science/6645"
+        list_name           : 'dev-test'
+
+        date_format         : "%Y-%m-%dT%H:%M:%SZ"
+        time_zone           : 'UTC'
+        date_strip          : []
+        normalize_class     : LancetFeedNormalizer
+  

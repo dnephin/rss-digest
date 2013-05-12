@@ -30,7 +30,6 @@ class ParseDateTestCase(TestCase):
         feed = mock.MagicMock(entries=entries)
         recent = feeds.get_recent_items(self.config, feed, base_date)
         assert_equal(recent, entries[3:])
-        assert recent[0]['date'] 
 
 
 class GetFeedEntriesTestCase(TestCase):
@@ -41,21 +40,32 @@ class GetFeedEntriesTestCase(TestCase):
         self.min_datetime = mock.Mock()
         with contextlib.nested(
             mock.patch('rssdigest.feeds.feedparser'),
-            mock.patch('rssdigest.feeds.get_recent_items')
-        ) as (self.mock_parser, self.mock_get_recent):
+            mock.patch('rssdigest.feeds.normalize'),
+        ) as (self.mock_parser, self.mock_normalize):
             yield
 
     def test_get_feed_entries_none(self):
-        self.mock_get_recent.return_value = []
+        self.mock_normalize.return_value.items.return_value = []
         feed = feeds.get_feed_entries(self.config, self.min_datetime)
         assert not feed
         self.mock_parser.parse.assert_called_with(self.config.url)
-        self.mock_get_recent.assert_called_with(self.config, 
-            self.mock_parser.parse.return_value, self.min_datetime)
+        self.mock_normalize.assert_called_with(
+            self.mock_parser.parse.return_value, self.config, self.min_datetime)
 
     def test_get_feed_entires_some(self):
-        self.mock_get_recent.return_value = [mock.Mock()]
+        self.mock_normalize.return_value.items.return_value = [mock.Mock()]
         feed = feeds.get_feed_entries(self.config, self.min_datetime)
-        assert_equal(feed.feed, self.mock_parser.parse.return_value)
-        assert_equal(feed.recent_items, self.mock_get_recent.return_value)
+        assert_equal(feed, self.mock_normalize.return_value)
 
+
+class NormalizeFeedTestCase(TestCase):
+
+    def test_normalize(self):
+        source_feed = mock.Mock()
+        date = mock.Mock()
+        config = mock.Mock(normalize_class='JCOFeedNormalizer')
+        feed = feeds.normalize(source_feed, config, date)
+        assert isinstance(feed, feeds.JCOFeedNormalizer)
+        assert_equal(feed.config, config)
+        assert_equal(feed.feed, source_feed)
+        assert_equal(feed.min_datetime, date)

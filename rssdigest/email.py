@@ -58,15 +58,15 @@ class DigestEmailRenderer(object):
     def __init__(self, feed, date=datetime.date.today()):
         self.feed = feed
         self.date = date
-        self.renderer = pystache.Renderer()
+        self.renderer = pystache.Renderer(string_encoding='utf8')
 
     def render_template(self, template_name, context):
         return self.renderer.render_path(template_name, context)
 
     def build_email(self):
         context = self.build_context()
-        html = pynliner.Pynliner().from_string(
-            self.render_template(self.config.html_template, context)).run()
+        html_content = self.render_template(self.config.html_template, context)
+        html = pynliner.Pynliner().from_string(html_content).run()
         return EmailContent(
             subject=context.title,
             html=html,
@@ -76,13 +76,11 @@ class DigestEmailRenderer(object):
         return DigestEmailContext(self.feed, self.date)
 
 
-# TODO: text version
 class DigestEmailContext(object):
 
     def __init__(self, feed, date):
-        self.feed = feed.feed
+        self.feed = feed
         self.config = feed.config
-        self.recent_items = feed.recent_items
         self.date = date
 
     @property
@@ -92,44 +90,32 @@ class DigestEmailContext(object):
    
     @property
     def url(self):
-        return self.feed.feed.link
+        return self.feed.channel['link']
 
     @property
     def issue(self):
-        return self.feed.feed['prism_coverdisplaydate']        
+        return self.feed.issue
 
-    # TODO: feedparser is broken for image
     @property
     def image(self):
-        return None
+        return self.feed.image
 
     @property
     def items(self):
-        return [self.prepare_item(item) for item in self.recent_items]
+        return [self.prepare_item(item) for item in self.feed.items()]
 
     def prepare_item(self, item):
         return {
             'url':          item['link'],
             'title':        item['title'],
             'short_title':  truncate(item['title'], 80),
-            'date':         item['prism_publicationdate'],
+            'date':         item['date'],
             'author':       item['author'],
             'text':         item['summary'],
-            'keywords':     self.prepare_keywords(item),
+            'keywords':     item['keywords'],
             'slug':         slugify(item['title']),
-            'publisher':    self.publisher(item)
+            'publication':  item['publication'],
         }
-
-    def prepare_keywords(self, item):
-        return None if not item.get('tags') else item['tags'][0]['term']
-
-    def publisher(self, item):
-        return 'Vol. %s No. %s %s-%s' % (
-            item['prism_volume'],
-            item['prism_number'],
-            item['prism_startingpage'],
-            item['prism_endingpage'])
-
 
 def slugify(value):
     return re.sub(r'\W+', '-', value.lower())
@@ -153,7 +139,7 @@ class DigestEmail(object):
         if http_response.status_code == 200:
             log.info("%s: sent %d feed entries: %s",
                 self.feed.config.name,
-                len(self.feed.recent_items),
+                len(self.feed.items()),
                 http_response.content)
             return
 

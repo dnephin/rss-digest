@@ -30,7 +30,7 @@
         font-size: 16px;
         color: #333;
     }
-    .date, .publisher {
+    .date, .publication {
         font-size: 12px;
         color: #777;
         font-weight: normal;
@@ -74,8 +74,14 @@
 <div>
 
     <h3><a href="{{url}}" name="{{slug}}">{{title}}</a></h3>
-    <p class="publisher">{{publisher}}</p>
-    <p class="author"><small>Author:</small> {{author}}</p>
+    <p class="publication">
+        {{#publication}}{{publication}}{{/publication}}
+    </p>
+
+    {{#author}}
+        <p class="author"><small>Author:</small> {{author}}</p>
+    {{/author}}
+
     <div class="text">{{{text}}}</div>
     
     {{#keywords}}
