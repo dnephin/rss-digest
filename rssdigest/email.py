@@ -21,7 +21,7 @@ EmailContent = namedtuple('EmailContent', 'subject html text')
 
 class MailGunConfig(schema.Schema):
     namespace       = 'DEFAULT'
-    config_path     = 'mailgun'
+    config_path     = 'email.mailgun'
 
     api_url         = schema.string()
     api_key         = staticconf.get_string('MAILGUN_API_KEY', namespace='app_config')
@@ -53,7 +53,7 @@ def send_email(config, list_name, email_content):
 
 class DigestEmailRenderer(object):
 
-    config = DigestEmailConfig
+    config = DigestEmailConfig()
 
     def __init__(self, feed, date=datetime.date.today()):
         self.feed = feed
@@ -143,7 +143,7 @@ def truncate(value, max_length):
 
 class DigestEmail(object):
 
-    mail_config = MailGunConfig
+    mail_config = MailGunConfig()
 
     def __init__(self, feed, renderer):
         self.feed = feed

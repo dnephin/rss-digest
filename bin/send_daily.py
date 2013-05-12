@@ -15,7 +15,8 @@ log = logging.getLogger(__name__)
 
 def parse_opts():
     parser = optparse.OptionParser()
-    parser.add_option('-c', '--config', default=config.path)
+    parser.add_option('-c', '--email-config', default='config/email.yaml')
+    parser.add_option('--rssdigest-config', default=config.path)
     parser.add_option('-a', '--api_key')
     parser.add_option('-o', '--override', action='append', default=[])
     opts, args = parser.parse_args()
@@ -36,7 +37,8 @@ def get_app(api_key):
 def load_config(opts):
     app = get_app(opts.api_key)
     staticconf.DictConfiguration(app.config.data, namespace='app_config')
-    config.load(opts.config)
+    staticconf.YamlConfiguration(opts.email_config)
+    config.load(opts.rssdigest_config)
     staticconf.ListConfiguration(opts.override)
     
 

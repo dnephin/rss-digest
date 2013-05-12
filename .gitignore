@@ -3,3 +3,6 @@
 *.pyc
 venv/
 build/
+
+email.html
+email.txt
