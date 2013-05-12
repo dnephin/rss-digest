@@ -90,7 +90,7 @@ class DigestEmailContext(object):
    
     @property
     def url(self):
-        return self.feed.channel['link']
+        return self.feed.feed['channel']['link']
 
     @property
     def issue(self):

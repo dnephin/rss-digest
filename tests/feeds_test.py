@@ -63,9 +63,9 @@ class NormalizeFeedTestCase(TestCase):
     def test_normalize(self):
         source_feed = mock.Mock()
         date = mock.Mock()
-        config = mock.Mock(normalize_class='JCOFeedNormalizer')
+        config = mock.Mock(normalize_class='PrismFeedNormalizer')
         feed = feeds.normalize(source_feed, config, date)
-        assert isinstance(feed, feeds.JCOFeedNormalizer)
+        assert isinstance(feed, feeds.PrismFeedNormalizer)
         assert_equal(feed.config, config)
         assert_equal(feed.feed, source_feed)
         assert_equal(feed.min_datetime, date)

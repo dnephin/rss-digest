@@ -2,7 +2,6 @@
 Read rss/atom feeds.
 """
 
-from collections import namedtuple
 import datetime
 import feedparser
 import logging
@@ -63,16 +62,12 @@ def normalize_items(normalizer):
                     normalizer.min_datetime)]
    
 
-class JCOFeedNormalizer(object):
+class PrismFeedNormalizer(object):
 
     def __init__(self, feed, config, min_datetime):
         self.feed = feed
         self.config = config
         self.min_datetime = min_datetime
-
-    @property
-    def channel(self):
-        return self.feed['channel']
 
     @property
     def issue(self):
@@ -117,10 +112,6 @@ class LancetFeedNormalizer(object):
         self.min_datetime = min_datetime
 
     @property
-    def channel(self):
-        return self.feed['channel']
-
-    @property
     def issue(self):
         return None
 
@@ -134,3 +125,4 @@ class LancetFeedNormalizer(object):
 
     def normalize_item(self, item):
         return item
+

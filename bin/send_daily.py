@@ -4,7 +4,6 @@ import heroku
 import logging
 import optparse
 import staticconf
-import sys
 
 from rssdigest import config
 from rssdigest.batch import dailydigest
@@ -23,12 +22,6 @@ def parse_opts():
     return opts
 
 
-def setup_logging(verbose=True):
-    fmt = "%(asctime)s %(levelname)7s  %(name)s  %(message)s"
-    level = logging.INFO if verbose else logging.WARN
-    logging.basicConfig(stream=sys.stdout, level=level, format=fmt)
-
-
 def get_app(api_key):
     cloud = heroku.from_key(api_key)
     return cloud.apps['rss-digest']
@@ -44,6 +37,6 @@ def load_config(opts):
 
 if __name__ == "__main__":
     opts = parse_opts()
-    setup_logging()
+    config.setup_logging()
     load_config(opts)
     dailydigest.run()

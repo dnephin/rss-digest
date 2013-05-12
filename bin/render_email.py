@@ -26,9 +26,16 @@ def get_opts():
 def main():
     opts = get_opts()
     config.load()
+    config.setup_logging()
     feed_configs = DailyDigestConfigSchema.feed_configs
-    min_datetime = get_utc_days_ago(10)
+    min_datetime = get_utc_days_ago(80)
     feed = feeds.get_feed_entries(feed_configs[opts.index], min_datetime)
+    if not feeds:
+        print "Oops, no recent items."
+        return
+    render(feed)
+
+def render(feed):
     renderer = email.DigestEmailRenderer(feed)
     email_content = renderer.build_email()
     with open('email.html', 'w') as f:
