@@ -1,10 +1,12 @@
 #!/usr/bin/env python
-
+"""
+Create mailing lists using the API.
+"""
 import optparse
 import staticconf
 
 from rssdigest import config
-from rssdigest.batch import dailydigest
+from rssdigest.batch import registerlists
 
 
 def parse_opts():
@@ -27,4 +29,6 @@ if __name__ == "__main__":
     opts = parse_opts()
     config.setup_logging()
     load_config(opts)
-    dailydigest.run()
+    registerlists.run()
+    
+

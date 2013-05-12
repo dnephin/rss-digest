@@ -51,6 +51,22 @@ def send_email(config, list_name, email_content):
         })
 
 
+# TODO: MailGunApi class
+def get_mailing_lists(config):
+    url = '%s/%s' % (config.api_url, 'lists')
+    return requests.get(url, auth=('api', config.api_key)).json()
+
+
+def create_list(config, address, name):
+    url = '%s/%s' % (config.api_url, 'lists')
+    return requests.post(url,
+        auth=('api', config.api_key),
+        data={
+            'address': address,
+            'name':    name
+    })
+
+
 class DigestEmailRenderer(object):
 
     config = DigestEmailConfig()

@@ -1,4 +1,5 @@
 
+import heroku
 import logging
 import pytz
 import staticconf
@@ -35,4 +36,11 @@ def setup_logging(verbose=True):
     logging.basicConfig(stream=sys.stdout, level=level, format=fmt)
 
 
+def get_app(api_key):
+    cloud = heroku.from_key(api_key)
+    return cloud.apps['rss-digest']
 
+
+def load_app_config(api_key=None):
+    app = get_app(api_key)
+    staticconf.DictConfiguration(app.config.data, namespace='app_config')
