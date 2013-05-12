@@ -3,8 +3,8 @@
 email:
     mailgun:
         api_url         : 'https://api.mailgun.net/v2'
-        email_from      : 'Rss Digest <Erica.Lenton@albertahealthservices.ca>'
+        email_from      : 'Journal Digest <noreply@journaldigest.mailgun.org>'
         reply_to        : 'Erica Lenton <Erica.Lenton@albertahealthservices.ca>'
-        list_domain     : 'app15574223.mailgun.org'
+        list_domain     : 'journaldigest.mailgun.org'
 
 
