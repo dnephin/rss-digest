@@ -12,11 +12,10 @@ class ParseDateTestCase(TestCase):
     def setup_config(self):
         self.config = mock.Mock(
             date_format="%Y-%m-%dT%H:%M:%S",
-            time_zone='MST',
-            date_strip=(0, 6))
+            time_zone='MST')
 
     def test_parse_date(self):
-        date_string = u'2013-05-07T15:00:43-07:00'
+        date_string = u'2013-05-07T15:00:43'
         expected = datetime.datetime(2013, 5, 7, 15, 0, 43,
             tzinfo=pytz.timezone('MST'))
         assert_equal(feeds.parse_date(self.config, date_string), expected)
@@ -25,7 +24,7 @@ class ParseDateTestCase(TestCase):
         base_date = datetime.datetime(2013, 4, 12, tzinfo=pytz.timezone('EST'))
         def build_date_string(i):
             dt = base_date + datetime.timedelta(days=i)
-            return dt.strftime(self.config.date_format) + "a" * 6
+            return dt.strftime(self.config.date_format)
         entries = [dict(updated=build_date_string(i)) for i in range(-3, 3)]
         feed = mock.MagicMock(entries=entries)
         recent = feeds.get_recent_items(self.config, feed, base_date)

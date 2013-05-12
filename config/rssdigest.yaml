@@ -4,9 +4,8 @@ feeds:
         url                 : 'http://jco.ascopubs.org/rss/current.xml'
         list_name           : 'journal-of-clinical-oncology'
 
-        date_format         : '%Y-%m-%dT%H:%M:%S'
+        date_format         : '%Y-%m-%dT%H:%M:%S-07:00'
         time_zone           : 'MST'
-        date_strip          : [0, 6]
         normalize_class     : PrismFeedNormalizer
 
     -   name                : 'ScienceDirect Publication: The Lancet Oncology'
@@ -15,7 +14,6 @@ feeds:
 
         date_format         : '%Y-%m-%dT%H:%M:%SZ'
         time_zone           : 'UTC'
-        date_strip          : []
         normalize_class     : LancetFeedNormalizer
 
     -   name                : 'Nature Reviews Clinical Oncology'
@@ -24,6 +22,5 @@ feeds:
 
         date_format         : '%Y-%m-%d'
         time_zone           : 'UTC'
-        date_strip          : []
         normalize_class     : PrismFeedNormalizer
  

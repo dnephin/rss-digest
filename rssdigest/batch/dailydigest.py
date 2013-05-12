@@ -6,6 +6,7 @@ import datetime
 import itertools
 import logging
 import pytz
+import staticconf
 
 from rssdigest import feeds, email, config
 
@@ -20,6 +21,7 @@ def get_default_min_entry_date():
 
 class DailyDigestConfigSchema(object):
 
+    is_production = staticconf.get_bool('production')
     feed_configs = config.get_feed_config('feeds')
     min_entry_date = config.get_utc_datetime(
         'min_entry_date', default=get_default_min_entry_date())
@@ -31,10 +33,17 @@ def get_feeds_with_new_entries(feed_configs, min_datetime):
         for feed_config in feed_configs))
 
 
+def update_for_environment(feed):
+    if DailyDigestConfigSchema.is_production:
+        return
+    feed.config.config['list_name'] = 'dev-test'
+
+
 def run():
     min_datetime = DailyDigestConfigSchema.min_entry_date
     log.info("Starting daily digest for %s", min_datetime)
 
     feed_configs = DailyDigestConfigSchema.feed_configs
     for feed in get_feeds_with_new_entries(feed_configs, min_datetime):
+        update_for_environment(feed)
         email.send_digest(feed)

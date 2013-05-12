@@ -20,15 +20,7 @@ class FeedConfig(object):
         return self.config[name]
 
 
-def strip_date(date_string, date_strip):
-    if date_strip:
-        lstrip, rstrip = date_strip
-        return date_string[lstrip:][:-rstrip] 
-    return date_string
-
-
 def parse_date(feed_config, date_string):
-    date_string = strip_date(date_string, feed_config.date_strip)
     naive_dt = datetime.datetime.strptime(date_string, feed_config.date_format)
     return naive_dt.replace(tzinfo=pytz.timezone(feed_config.time_zone))
 

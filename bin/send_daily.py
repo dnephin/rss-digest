@@ -13,6 +13,7 @@ def parse_opts():
     parser.add_option('--rssdigest-config', default=config.path)
     parser.add_option('-o', '--override', action='append', default=[])
     parser.add_option('--api-key')
+    parser.add_option('--prod', action='store_true')
     opts, args = parser.parse_args()
     return opts
 
@@ -21,6 +22,7 @@ def load_config(opts):
     config.load_app_config(opts.api_key)
     staticconf.YamlConfiguration(opts.email_config)
     config.load(opts.rssdigest_config)
+    staticconf.DictConfiguration({'is_production': opts.prod})
     staticconf.ListConfiguration(opts.override)
     
 
