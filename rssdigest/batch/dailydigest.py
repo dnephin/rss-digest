@@ -21,7 +21,7 @@ def get_default_min_entry_date():
 
 class DailyDigestConfigSchema(object):
 
-    is_production = staticconf.get_bool('production')
+    is_production = staticconf.get_bool('is_production')
     feed_configs = config.get_feed_config('feeds')
     min_entry_date = config.get_utc_datetime(
         'min_entry_date', default=get_default_min_entry_date())
