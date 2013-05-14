@@ -4,6 +4,7 @@ Render a DigestEmail with a feed and print the results to files.
 """
 
 import datetime
+import feedparser
 import pytz
 import optparse
 import random
@@ -29,14 +30,18 @@ def get_feed_config(index):
     if index is None:
         return random.choice(feed_configs)
     return feed_configs[index]
-    
+   
+def get_feed(feed_config):
+    min_datetime = get_utc_days_ago(80)
+    with open('./samples/%s.xml' % feed_config.list_name, 'r') as f:
+        feed = feedparser.parse(f)
+    return feeds.normalize(feed, feed_config, min_datetime)
 
 def main():
     opts = get_opts()
     config.load()
     config.setup_logging()
-    min_datetime = get_utc_days_ago(80)
-    feed = feeds.get_feed_entries(get_feed_config(opts.index), min_datetime)
+    feed = get_feed(get_feed_config(opts.index))
     if not feeds:
         print "Oops, no recent items."
         return

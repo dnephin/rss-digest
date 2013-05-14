@@ -120,7 +120,6 @@ class DigestEmailContext(object):
             'url':          item['link'],
             'title':        item['title'],
             'short_title':  truncate(item['title'], 80),
-            'date':         item['date'],
             'author':       item.get('author'),
             'text':         item['summary'],
             'keywords':     item.get('keywords'),

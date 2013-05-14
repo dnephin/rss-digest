@@ -107,5 +107,12 @@ class LancetFeedNormalizer(object):
         return normalize_items(self)
 
     def normalize_item(self, item):
+        item = dict(item)
+        item['summary'] = clean_trailing_brs(item['summary'])
         return item
 
+
+def clean_trailing_brs(source):
+    while source.endswith('<br />'):
+        source = source[:-6]
+    return source

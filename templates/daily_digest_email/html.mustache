@@ -6,45 +6,30 @@
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         color: #333;
     }
-    h1#title {
-        margin-bottom: 0px;
+    h3, p, h1, h2 {
+        margin: 0;
     }
-    h1 a {
+    h1#title > a {
         font-size: 18px;
-        color: #222;
         text-decoration: none;
+        color: #00002D;
     }
     #sub_title {
         margin-top: 0px;
         font-size: 14px;
+        color: #00002D;
     }
-    p.summary {
-        margin: 0 0 20px;
-    }
-
     h2 {
         font-size: 16px;
     }
-    h3 {
-        margin: 15px 0 2px 0;
-        padding-top: 15px;
-        border-top: 1px solid #ccc;
-    }
-    h3 a {
-        font-size: 14px;
-        text-decoration: none;
-        color: #222;
-    }
-    .date, .publication {
-        font-size: 11px;
-        color: #777;
-        margin-top: 0px;
-    }
-    .item-link {
-        margin: 0 10px;
+    .publication > span {
+        margin-right: 10px;
     }
     p, .text {
         font-size: 13px;
+    }
+    .text, .text > p {
+        margin: 10px 0;
     }
     .author small, .keywords small {
         font-weight: bold;
@@ -57,11 +42,33 @@
         white-space: nowrap;
         overflow: hidden;
     }
+    .item-header {
+        padding: 20px;
+        margin-top: 10px;
+        background: #ccddff;
+    }
+    .item-body {
+        padding: 10px 20px 20px 20px;
+        border: 1px solid #ccddff;
+    }
+    .item-header > h3 > a {
+        font-size: 14px;
+        text-decoration: none;
+        color: #00002D;
+    }
+    .item-header > .publication > span,
+    .item-header > .publication > a
+    {
+        font-size: 11px;
+        color: #00002D;
+    }
 </style>
 
 
-<h1 id="title"><a href="{{url}}">{{title}}</a></h1>
-<h2 id="sub_title">Table of Contents for {{digest_date}}</h2>
+<div class="item-header">
+    <h1 id="title"><a href="{{url}}">{{title}}</a></h1>
+    <h2 id="sub_title">Table of Contents for {{digest_date}}</h2>
+</div>
 
 
 <ol class="contents">
@@ -74,22 +81,27 @@
 
 <div>
 
+    <div class="item-header">
     <h3><a href="{{url}}" name="{{slug}}">{{title}}</a></h3>
     <p class="publication">
-        {{#publication}}{{publication}}{{/publication}}
+        {{#publication}}<span>{{publication}}</span>{{/publication}}
         <a class="item-link" href="{{url}}">link</a>
     </p>
+    </div>
 
+    <div class="item-body">
     {{#author}}
         <p class="author"><small>Author:</small> {{author}}</p>
     {{/author}}
 
+    {{#text}}
     <div class="text">{{{text}}}</div>
+    {{/text}}
     
     {{#keywords}}
         <p class="keywords"><small>Keywords:</small> {{keywords}}</p>
     {{/keywords}}
-
+    </div>
 </div>
 
 {{/items}}
