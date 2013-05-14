@@ -102,9 +102,9 @@ class DigestEmailContextTestCase(TestCase):
         self.date = datetime.date(2013, 4, 4)
         self.context = email.DigestEmailContext(self.feed, self.date)
 
-    def test_title(self):
-        expected ='%s digest for April 04, 2013' % self.feed.config.name
-        assert_equal(self.context.title, expected)
+    def test_digest_date(self):
+        expected = 'April 04, 2013'
+        assert_equal(self.context.digest_date, expected)
 
 
 class HandleResponseTestCase(TestCase):

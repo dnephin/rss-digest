@@ -63,15 +63,11 @@ class PrismFeedNormalizer(object):
 
     @property
     def issue(self):
-        date = datetime.datetime.strptime(
-            self.channel['prism_coverdisplaydate'],
-            '%b %d %Y %I:%M:%S:000%p')
+        cover_date = self.feed['channel'].get('prism_coverdisplaydate')
+        if not cover_date:
+            return None
+        date = datetime.datetime.strptime(cover_date, '%b %d %Y %I:%M:%S:000%p')
         return date.strftime("%B %d, %Y")
-
-    @property
-    def image(self):
-        # TODO: broken by feedparser
-        return None
 
     def items(self):
         return normalize_items(self)
@@ -105,11 +101,6 @@ class LancetFeedNormalizer(object):
 
     @property
     def issue(self):
-        return None
-
-    @property
-    def image(self):
-        # Image in the feed is 404
         return None
 
     def items(self):

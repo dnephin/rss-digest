@@ -101,20 +101,15 @@ class DigestEmailContext(object):
 
     @property
     def title(self):
-         return '%s digest for %s' % (
-            self.config.name,  self.date.strftime('%B %d, %Y'))
+         return self.config.name
+         
+    @property
+    def digest_date(self):
+        return self.date.strftime('%B %d, %Y')
    
     @property
     def url(self):
         return self.feed.feed['channel']['link']
-
-    @property
-    def issue(self):
-        return self.feed.issue
-
-    @property
-    def image(self):
-        return self.feed.image
 
     @property
     def items(self):

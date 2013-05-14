@@ -6,6 +6,7 @@ Render a DigestEmail with a feed and print the results to files.
 import datetime
 import pytz
 import optparse
+import random
 
 from rssdigest import feeds, email, config
 from rssdigest.batch.dailydigest import DailyDigestConfigSchema
@@ -18,18 +19,24 @@ def get_utc_days_ago(num):
 
 def get_opts():
     parser = optparse.OptionParser()
-    parser.add_option('-n', '--index',  type='int', default=0)
+    parser.add_option('-n', '--index',  type='int', default=None)
     opts, _ = parser.parse_args()
     return opts
    
+
+def get_feed_config(index):
+    feed_configs = DailyDigestConfigSchema.feed_configs
+    if index is None:
+        return random.choice(feed_configs)
+    return feed_configs[index]
+    
 
 def main():
     opts = get_opts()
     config.load()
     config.setup_logging()
-    feed_configs = DailyDigestConfigSchema.feed_configs
     min_datetime = get_utc_days_ago(80)
-    feed = feeds.get_feed_entries(feed_configs[opts.index], min_datetime)
+    feed = feeds.get_feed_entries(get_feed_config(opts.index), min_datetime)
     if not feeds:
         print "Oops, no recent items."
         return
