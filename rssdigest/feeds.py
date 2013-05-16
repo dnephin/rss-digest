@@ -4,20 +4,13 @@ Read rss/atom feeds.
 
 import datetime
 import feedparser
+import itertools
 import logging
 import pytz
 
+from rssdigest import persist
 
 log = logging.getLogger(__name__)
-
-# TODO:make staticconf.Schema accept a path argument
-class FeedConfig(object):
-
-    def __init__(self, config_dict):
-        self.config = config_dict
-
-    def __getattr__(self, name):
-        return self.config[name]
 
 
 def parse_date(feed_config, date_string):
@@ -98,13 +91,27 @@ class LancetFeedNormalizer(object):
         self.feed = feed
         self.config = config
         self.min_datetime = min_datetime
+        self._items = None
 
     @property
     def issue(self):
         return None
 
+    def get_new_items(self):
+        redis = persist.get_conn()
+        # TODO: better abstraction
+        last_entry = redis.hget('last_entries', self.config.list_name)
+        def while_not_matched(item):
+            return item['title'] != last_entry
+        recent_items = list(itertools.takewhile(while_not_matched, self.feed.entries))
+        if recent_items:
+            redis.hset('last_entries', self.config.list_name, recent_items[0]['title'])
+        return recent_items
+
     def items(self):
-        return normalize_items(self)
+        if self._items is None:
+            self._items = [self.normalize_item(item) for item in self.get_new_items()]
+        return self._items
 
     def normalize_item(self, item):
         item = dict(item)

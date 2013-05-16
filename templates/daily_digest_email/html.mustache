@@ -6,7 +6,7 @@
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         color: #333;
     }
-    h3, p, h1, h2 {
+    h3, p, h1, h2, ol {
         margin: 0;
     }
     h1#title > a {
@@ -46,10 +46,14 @@
         padding: 20px;
         margin-top: 10px;
         background: #ccddff;
+        -moz-border-radius: 3px 3px 0 0;
+        border-radius: 3px 3px 0 0;
     }
     .item-body {
         padding: 10px 20px 20px 20px;
         border: 1px solid #ccddff;
+        -moz-border-radius: 0 0 3px 3px;
+        border-radius: 0 0 3px 3px;
     }
     .item-header > h3 > a {
         font-size: 14px;
@@ -71,11 +75,13 @@
 </div>
 
 
+<div class="item-body">
 <ol class="contents">
 {{#items}}
     <li><a href="#{{slug}}">{{short_title}}</li>
 {{/items}}
 </ol>
+</div>
 
 {{#items}}
 
